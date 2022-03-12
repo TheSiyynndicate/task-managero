@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://Thesiyynndicate:BSPPwdq#8G-DxYa@task-manager-api.bz5c7.mongodb.net/task-manager-api?retryWrites=true&w=majority";
+const uri = `mongodb+srv://Thesiyynndicate:${encodeURIComponent('BSPPwdq#8G-DxYa')}@task-manager-api.bz5c7.mongodb.net/task-manager-api?retryWrites=true&w=majority`;
 
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.version });
 // client.connect(err => {
@@ -10,9 +10,16 @@ const uri = "mongodb+srv://Thesiyynndicate:BSPPwdq#8G-DxYa@task-manager-api.bz5c
 // });
 
 
-const mongooseClient =  mongoose.connect(uri,{useNewUrlParser:true,useUnifiedTopology: true, serverApi: ServerApiVersion.v1},(val)=>{});
+// const mongooseClient =  mongoose.connect(uri,{useNewUrlParser:true,useUnifiedTopology: true, serverApi: ServerApiVersion.v1},(val)=>{});
+main().catch(err => console.log(err));
 
-module.exports = mongooseClient;
+async function main() {
+  await mongoose.connect(uri,{     useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true});
+}
+
+
 // const mongoose = require('mongoose');
 
 // mongoose.connect('mongodb://127.0.0.1:27017/task-managero-api', {
