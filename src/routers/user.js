@@ -11,22 +11,18 @@ router.post("/users/login", async (req, res) => {
       req.body.password
     );
     const token = await user.generateWebToken();
-    res.send(
-      json({
-        message: "Logged in successfully",
-        data: {
-          user: user,
-          token: token,
-        },
-      })
-    );
+    res.json({
+      message: "Logged in successfully",
+      data: {
+        user: user,
+        token: token,
+      },
+    });
   } catch (error) {
-    res.status(400).send(
-      json({
-        message: "Failed to login",
-        data: { error },
-      })
-    );
+    res.status(400).json({
+      message: "Failed to login",
+      data: { error },
+    });
   }
 });
 
