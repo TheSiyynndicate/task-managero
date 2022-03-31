@@ -12,9 +12,12 @@ router.post('/tasks', auth, async (req, res) => {
 
     try {
         await task.save()
-        res.status(201).send(task)
+        res.status(201).json({
+            "messaage":"Task created successfully!",
+            "data":{task}
+        })
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).json(e)
     }
 })
 
@@ -46,7 +49,9 @@ router.get('/tasks', auth, async (req, res) => {
             }
         }).execPopulate();
         console.log(user.tasks)
-        res.send(user.tasks)
+        res.json({
+            "message":`${user.name}`+" task list loaded successfully",
+            "data":user.tasks})
     } catch (e) {
         res.status(500).send()
     }
