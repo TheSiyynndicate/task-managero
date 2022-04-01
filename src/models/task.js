@@ -1,10 +1,17 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
+    title:{
+        type: String,
+        required: true,
+        trim: true,
+        default:'',
+    },
     description: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        default:'',
     },
     completed: {
         type: Boolean,

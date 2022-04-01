@@ -1,23 +1,34 @@
 const express = require('express')
 const Task = require('../models/task')
 const auth = require('../middleware/auth.js')
+const jwt = require('jsonwebtoken')
 const router = new express.Router()
 
 // Create a task
-router.post('/tasks', auth, async (req, res) => {
-    const task = new Task({
-        ...req.body,
-        owner: req.user._id
-    })
+router.post('/tasks/create-task', auth, async (req, res) => {
 
     try {
+        const verify = jwt.verify(req.token,'mySecretKey',function (err,decoded){
+            if(err){
+                res.status(400).json({"message":"Failed to create task",
+                "data":err
+            })}
+             });
+        const task = new Task({
+            ...req.body,
+            owner: req.user._id
+        })
+    
         await task.save()
         res.status(201).json({
             "messaage":"Task created successfully!",
             "data":{task}
         })
     } catch (e) {
-        res.status(400).json(e)
+        res.status(400).json({"message":"Failed to create task",
+        "data":e
+    }
+        )
     }
 })
 
@@ -53,7 +64,9 @@ router.get('/tasks', auth, async (req, res) => {
             "message":`${user.name}`+" task list loaded successfully",
             "data":user.tasks})
     } catch (e) {
-        res.status(500).send()
+        res.status(500).json({
+            "message":"Failed to load the list",
+            "data":{}})
     }
 })
 

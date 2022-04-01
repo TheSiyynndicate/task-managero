@@ -77,7 +77,7 @@ router.post("/users/create", async (req, res) => {
 });
 
 // List/read user's profile
-router.get("/users/me", auth, async (req, res) => {
+router.get("/users/user-details", auth, async (req, res) => {
   res.send(req.user);
 });
 
